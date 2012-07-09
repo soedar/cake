@@ -34,20 +34,49 @@
 	// always call "super" init
 	// Apple recommends to re-assign "self" with the "super" return value
 	if( (self=[super init])) {
-		
-		// create and initialize a Label
-		CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"Marker Felt" fontSize:64];
-
+        
+        self.isTouchEnabled = YES;
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-	
-		// position the label on the center of the screen
-		label.position =  ccp( size.width /2 , size.height/2 );
-		
-		// add the label as a child to this Layer
-		[self addChild: label];
+        circle = [IXCircle circleWithParts:4 center:ccp(size.width/2, size.height/2)];
+		[self addChild: circle];
 	}
 	return self;
+}
+
+- (void) registerWithTouchDispatcher
+{
+    [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+}
+
+- (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    shouldTrack = [circle shouldTrack:touch];
+    
+    if (shouldTrack) {
+        ccColor4B color = ccc4(0, 255, 0, 150);
+        ribbon = [CCRibbon ribbonWithWidth:10 image:@"Icon.png" length:10.0 color:color fade:0.6f];
+        [self addChild:ribbon];
+        
+        CGPoint origin = [circle convertToWorldSpace:CGPointMake(0, 0)];
+        [ribbon addPointAt:origin width:5];
+    }
+    
+    return shouldTrack;
+}
+
+- (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    if (shouldTrack) {
+        [circle drawPointFromTouch:touch ribbon:ribbon];
+    }
+}
+
+- (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+    if (shouldTrack) {
+        [self removeChild:ribbon cleanup:YES];
+    }
 }
 
 // on "dealloc" you need to release all your retained objects
