@@ -10,6 +10,7 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 #import "IXCircle.h"
+#import "IXFraction.h"
 
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer
@@ -17,6 +18,9 @@
     CCRibbon *ribbon;
     IXCircle *circle;
     BOOL shouldTrack;
+    
+    CCLabelTTF *fractionLabel;
+    int targetPieces;
 }
 
 // returns a CCScene that contains the HelloWorldLayer as the only child

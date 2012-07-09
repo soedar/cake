@@ -9,26 +9,29 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-#define UNDEF_RAD 5
+#define POS_ANGLE(angle) ((angle < 0) ? angle + 2*M_PI : angle)
 
 @interface IXCircle : CCNode {
-    float radius_;
     int parts_;
-    float alpha_rad_;
     CGPoint center_;
+    float radius_;
     
-    float activeRad_;
-    BOOL isCurved_;
+    float alphaRad;
+    int startLine;
+    int endLine;
+    
+    // temp variable, used to restrict only clockwise movement
+    float current_angle;
 }
 
-@property (readonly, nonatomic, assign) int parts;
+@property (nonatomic, assign) int parts;
 @property (readonly, nonatomic, assign) CGPoint center;
+@property (readonly, nonatomic, assign) float radius;
 
 + (id) circleWithParts:(int)parts center:(CGPoint)center;
 - (id) initWithParts:(int)parts center:(CGPoint) center;
-- (CGPoint) getNodePointFromTouch:(UITouch*)touch;
 - (BOOL) shouldTrack:(UITouch*)touch;
 - (void) drawPointFromTouch:(UITouch*)touch ribbon:(CCRibbon*)ribbon;
-
+- (int) getSelectedQuadrants;
 
 @end

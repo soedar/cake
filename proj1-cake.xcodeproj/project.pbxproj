@@ -123,6 +123,7 @@
 		605FD94D15A56D2700C86C31 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 605FD94C15A56D2700C86C31 /* RootViewController.m */; };
 		605FD95015A56D2700C86C31 /* HelloWorldLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 605FD94F15A56D2700C86C31 /* HelloWorldLayer.m */; };
 		605FD95915A56D7A00C86C31 /* IXCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 605FD95815A56D7A00C86C31 /* IXCircle.m */; };
+		60D83C3715AB0F3E009FBBE1 /* IXFraction.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D83C3615AB0F3E009FBBE1 /* IXFraction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -363,6 +364,8 @@
 		605FD95115A56D2700C86C31 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		605FD95715A56D7A00C86C31 /* IXCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IXCircle.h; sourceTree = "<group>"; };
 		605FD95815A56D7A00C86C31 /* IXCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IXCircle.m; sourceTree = "<group>"; };
+		60D83C3515AB0F3E009FBBE1 /* IXFraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IXFraction.h; sourceTree = "<group>"; };
+		60D83C3615AB0F3E009FBBE1 /* IXFraction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IXFraction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +431,8 @@
 				605FD95115A56D2700C86C31 /* GameConfig.h */,
 				605FD95715A56D7A00C86C31 /* IXCircle.h */,
 				605FD95815A56D7A00C86C31 /* IXCircle.m */,
+				60D83C3515AB0F3E009FBBE1 /* IXFraction.h */,
+				60D83C3615AB0F3E009FBBE1 /* IXFraction.m */,
 				605FD7F715A56D2500C86C31 /* Resources */,
 				605FD80B15A56D2500C86C31 /* libs */,
 				605FD94415A56D2700C86C31 /* Supporting Files */,
@@ -931,6 +936,7 @@
 				605FD94D15A56D2700C86C31 /* RootViewController.m in Sources */,
 				605FD95015A56D2700C86C31 /* HelloWorldLayer.m in Sources */,
 				605FD95915A56D7A00C86C31 /* IXCircle.m in Sources */,
+				60D83C3715AB0F3E009FBBE1 /* IXFraction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

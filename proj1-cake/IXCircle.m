@@ -13,6 +13,7 @@
 
 @synthesize parts = parts_;
 @synthesize center = center_;
+@synthesize radius = radius_;
 
 + (id) circleWithParts:(int)parts center:(CGPoint)center
 {
@@ -25,12 +26,17 @@
         radius_ = 150;
         parts_ = parts;
         center_ = center;
-        alpha_rad_ = CC_DEGREES_TO_RADIANS(360.0/parts_);
+        alphaRad = 2*M_PI / parts_;
         self.position = center;
         
-        activeRad_ = UNDEF_RAD;
     }
     return self;
+}
+
+- (void) setParts:(int)parts
+{
+    parts_ = parts;
+    alphaRad = 2*M_PI / parts_;
 }
 
 - (void) draw
@@ -40,7 +46,7 @@
     ccDrawCircle(ccp(0,0), radius_, 0, 60, NO);
     
     for (int i=0;i<parts_;i++) {
-        float rad = alpha_rad_ * i;
+        float rad = alphaRad * i;
         float x = radius_ * sinf(rad);
         float y = radius_ * cosf(rad);
         
@@ -51,43 +57,40 @@
 - (BOOL) shouldTrack:(UITouch*)touch
 {
     CGPoint point = [self convertTouchToNodeSpace:touch];
-    
-    float threshold = radius_ * 0.10;
     float radius = sqrtf(point.x*point.x + point.y*point.y);
-    activeRad_ = UNDEF_RAD;
+    current_angle = POS_ANGLE(atan2f(point.x, point.y));
     
-    return (radius <= threshold);
+    startLine = -1;
+    endLine = -1;
+    return (radius <= radius_);
 }
 
 - (void) drawPointFromTouch:(UITouch*)touch ribbon:(CCRibbon*)ribbon
 {
     CGPoint point = [self convertTouchToNodeSpace:touch];
-    float radius = sqrtf(point.x*point.x + point.y*point.y);
+    float angle = atan2f(point.x, point.y);
+    
+    if (POS_ANGLE(angle) < current_angle) {
+        return;
+    }
+    
+    current_angle = POS_ANGLE(angle);
+    
+    point.x = radius_ * sinf(angle);
+    point.y = radius_ * cosf(angle);
    
-    if (activeRad_ == UNDEF_RAD) {
-        float threshold = radius_*0.25;
-        
-        if (radius >= threshold) {
-            float angle = atan2f(point.x, point.y);
-            activeRad_ = round(angle/alpha_rad_) * alpha_rad_;
-        }
+    if (startLine < 0) {
+        startLine = POS_ANGLE(angle) / alphaRad;
     }
-    else {
-        BOOL activated = (radius >= radius_*0.75);
-        if (activated) {
-            float rad = atan2f(point.x, point.y);
-            point.x = radius_ * sinf(rad);
-            point.y = radius_ * cosf(rad);
-        }
-        
-        else {
-            point.x = radius * sinf(activeRad_);
-            point.y = radius * cosf(activeRad_);
-        } 
-        
-        point = [self convertToWorldSpace:point];
-        [ribbon addPointAt:point width:5];
-    }
+    endLine = (POS_ANGLE(angle) / alphaRad) + 1;
+    
+    point = [self convertToWorldSpace:point];
+    [ribbon addPointAt:point width:5];
+}
+
+- (int) getSelectedQuadrants
+{
+    return endLine - startLine;
 }
 
 @end

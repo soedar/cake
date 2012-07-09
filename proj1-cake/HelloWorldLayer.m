@@ -38,8 +38,16 @@
         self.isTouchEnabled = YES;
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
-        circle = [IXCircle circleWithParts:4 center:ccp(size.width/2, size.height/2)];
-		[self addChild: circle];
+       
+        fractionLabel = [[CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:16] retain];
+        [fractionLabel setColor:ccc3(0, 255, 0)];
+        [fractionLabel setPosition:ccp(50, 300)];
+        [self addChild:fractionLabel];
+        
+        circle = [[IXCircle circleWithParts:1 center:ccp(size.width/2, size.height/2)] retain];
+        [self addChild:circle];
+        
+        [self updateCircle];
 	}
 	return self;
 }
@@ -47,6 +55,15 @@
 - (void) registerWithTouchDispatcher
 {
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+}
+
+- (void) updateCircle
+{
+    IXFraction *fraction = [IXFraction randomFraction];
+    targetPieces = fraction.numerator;
+    
+    [fractionLabel setString:fraction.string];
+    [circle setParts:fraction.denominator];
 }
 
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
@@ -57,9 +74,6 @@
         ccColor4B color = ccc4(0, 255, 0, 150);
         ribbon = [CCRibbon ribbonWithWidth:10 image:@"Icon.png" length:10.0 color:color fade:0.6f];
         [self addChild:ribbon];
-        
-        CGPoint origin = [circle convertToWorldSpace:CGPointMake(0, 0)];
-        [ribbon addPointAt:origin width:5];
     }
     
     return shouldTrack;
@@ -76,6 +90,11 @@
 {
     if (shouldTrack) {
         [self removeChild:ribbon cleanup:YES];
+        int selected = [circle getSelectedQuadrants];
+        
+        if (selected == targetPieces) {
+            [self updateCircle];
+        }
     }
 }
 
@@ -85,7 +104,9 @@
 	// in case you have something to dealloc, do it in this method
 	// in this particular example nothing needs to be released.
 	// cocos2d will automatically release all the children (Label)
-	
+	[fractionLabel release]; fractionLabel = nil;
+    [circle release]; circle = nil;
+    
 	// don't forget to call "super dealloc"
 	[super dealloc];
 }
