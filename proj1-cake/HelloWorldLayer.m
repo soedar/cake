@@ -39,9 +39,9 @@
 		// ask director the the window size
 		CGSize size = [[CCDirector sharedDirector] winSize];
        
-        fractionLabel = [[CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:16] retain];
+        fractionLabel = [[CCLabelTTF labelWithString:@"" fontName:@"Marker Felt" fontSize:30] retain];
         [fractionLabel setColor:ccc3(0, 255, 0)];
-        [fractionLabel setPosition:ccp(50, 300)];
+        [fractionLabel setPosition:ccp(60, 300)];
         [self addChild:fractionLabel];
         
         circle = [[IXCircle circleWithParts:1 center:ccp(size.width/2, size.height/2)] retain];
