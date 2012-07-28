@@ -11,9 +11,10 @@
 #import "cocos2d.h"
 #import "IXCircle.h"
 #import "IXFraction.h"
+#import "IXCircleProtocol.h"
 
 // HelloWorldLayer
-@interface HelloWorldLayer : CCLayer
+@interface HelloWorldLayer : CCLayer<IXCircleProtocol>
 {
     CCRibbon *ribbon;
     IXCircle *circle;

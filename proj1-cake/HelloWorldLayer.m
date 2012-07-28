@@ -44,10 +44,13 @@
         [fractionLabel setPosition:ccp(60, 300)];
         [self addChild:fractionLabel];
         
-        circle = [[IXCircle circleWithParts:1 center:ccp(size.width/2, size.height/2)] retain];
+        IXCircleOverlay *overlay = [IXCircleOverlay newOverlay];
+        circle = [[IXCircle circleWithCenter:ccp(size.width/2, size.height/2) overlay:overlay] retain];
         [self addChild:circle];
         
-        [self updateCircle];
+        [circle setDelegate:self];
+        
+        [fractionLabel setString:circle.fraction.string];
 	}
 	return self;
 }
@@ -57,45 +60,20 @@
     [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
 }
 
-- (void) updateCircle
-{
-    IXFraction *fraction = [IXFraction randomFraction];
-    targetPieces = fraction.numerator;
-    
-    [fractionLabel setString:fraction.string];
-    [circle setParts:fraction.denominator];
-}
-
 - (BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    shouldTrack = [circle shouldTrack:touch];
-    
-    if (shouldTrack) {
-        ccColor4B color = ccc4(0, 255, 0, 150);
-        ribbon = [CCRibbon ribbonWithWidth:10 image:@"Icon.png" length:10.0 color:color fade:0.6f];
-        [self addChild:ribbon];
-    }
-    
-    return shouldTrack;
+    [circle startTrack:touch];
+    return YES;
 }
 
 - (void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (shouldTrack) {
-        [circle drawPointFromTouch:touch ribbon:ribbon];
-    }
+    [circle trackTouch:touch];
 }
 
 - (void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-    if (shouldTrack) {
-        [self removeChild:ribbon cleanup:YES];
-        int selected = [circle getSelectedQuadrants];
-        
-        if (selected == targetPieces) {
-            [self updateCircle];
-        }
-    }
+    [circle endTrack:touch];
 }
 
 // on "dealloc" you need to release all your retained objects
@@ -109,5 +87,12 @@
     
 	// don't forget to call "super dealloc"
 	[super dealloc];
+}
+
+- (void) selectedAreaIsCorrect:(BOOL)correct
+{
+    if (correct) {
+        [fractionLabel setString:circle.fraction.string];
+    }
 }
 @end

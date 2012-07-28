@@ -11,86 +11,82 @@
 
 @implementation IXCircle
 
-@synthesize parts = parts_;
-@synthesize center = center_;
-@synthesize radius = radius_;
+@synthesize overlay = overlay_;
+@synthesize fraction = fraction_;
+@synthesize delegate = delegate_;
 
-+ (id) circleWithParts:(int)parts center:(CGPoint)center
++ (id) circleWithCenter:(CGPoint)center
+                overlay:(IXCircleOverlay*)overlay
 {
-    return [[[self alloc] initWithParts:parts center:center] autorelease];
+    return [[[self alloc] initWithCenter:(CGPoint)center
+                                overlay:overlay] autorelease];
 }
 
-- (id) initWithParts:(int)parts center:(CGPoint)center
+- (id) initWithCenter:(CGPoint)center
+              overlay:(IXCircleOverlay *)overlay
 {
     if (self = [super init]) {
-        radius_ = 150;
-        parts_ = parts;
-        center_ = center;
-        alphaRad = 2*M_PI / parts_;
+        overlay_ = [overlay retain];
+        sprite = [CCSprite spriteWithFile:@"pizza.png"];
+        
         self.position = center;
         
+        [self updateFraction:[IXFraction randomFraction]];
+        [self addChild:sprite];
+        [self addChild:overlay_];
     }
     return self;
 }
 
-- (void) setParts:(int)parts
+- (void) dealloc
 {
-    parts_ = parts;
-    alphaRad = 2*M_PI / parts_;
-}
-
-- (void) draw
-{
-    glLineWidth(1);
-    glColor4ub(255, 0, 0, 255);
-    ccDrawCircle(ccp(0,0), radius_, 0, 60, NO);
+    [overlay_ release]; overlay_ = nil;
+    [fraction_ release]; fraction_ = nil;
     
-    for (int i=0;i<parts_;i++) {
-        float rad = alphaRad * i;
-        float x = radius_ * sinf(rad);
-        float y = radius_ * cosf(rad);
-        
-        ccDrawLine(ccp(0,0), ccp(x,y));
-    }
+    [super dealloc];
 }
 
-- (BOOL) shouldTrack:(UITouch*)touch
+- (void) updateFraction:(IXFraction*)fraction
+{
+    if (fraction_ != nil) {
+        [fraction_ release];
+    }
+    fraction_ = [fraction retain];
+    [overlay_ setParts:fraction_.denominator];
+}
+
+- (void) startTrack:(UITouch*)touch
 {
     CGPoint point = [self convertTouchToNodeSpace:touch];
-    float radius = sqrtf(point.x*point.x + point.y*point.y);
-    current_angle = POS_ANGLE(atan2f(point.x, point.y));
+    float angle = POS_ANGLE(atan2f(point.x, point.y));
     
-    startLine = -1;
-    endLine = -1;
-    return (radius <= radius_);
+    [overlay_ setStartAngle:angle];
 }
 
-- (void) drawPointFromTouch:(UITouch*)touch ribbon:(CCRibbon*)ribbon
+- (void) trackTouch:(UITouch*)touch
 {
     CGPoint point = [self convertTouchToNodeSpace:touch];
-    float angle = atan2f(point.x, point.y);
+    float angle = POS_ANGLE(atan2f(point.x, point.y));
     
-    if (POS_ANGLE(angle) < current_angle) {
-        return;
-    }
-    
-    current_angle = POS_ANGLE(angle);
-    
-    point.x = radius_ * sinf(angle);
-    point.y = radius_ * cosf(angle);
-   
-    if (startLine < 0) {
-        startLine = POS_ANGLE(angle) / alphaRad;
-    }
-    endLine = (POS_ANGLE(angle) / alphaRad) + 1;
-    
-    point = [self convertToWorldSpace:point];
-    [ribbon addPointAt:point width:5];
+    [overlay_ setEndAngle:angle];
 }
 
-- (int) getSelectedQuadrants
+- (void) endTrack:(UITouch*)touch
 {
-    return endLine - startLine;
+    int parts = [overlay_ getSelectedParts];
+    
+    if (parts == fraction_.numerator) {
+        [self updateFraction:[IXFraction randomFraction]];
+        if (delegate_ != nil) {
+            [delegate_ selectedAreaIsCorrect:YES];
+        }
+    } else {
+        if (delegate_ != nil) {
+            [delegate_ selectedAreaIsCorrect:NO];
+        }
+    }
+    
+    [overlay_ setStartAngle:0];
+    [overlay_ setEndAngle:0];
 }
-
 @end

@@ -8,30 +8,30 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "IXDrawingPrimitives.h"
+#import "IXCircleOverlay.h"
+#import "IXFraction.h"
+#import "IXCircleProtocol.h"
 
 #define POS_ANGLE(angle) ((angle < 0) ? angle + 2*M_PI : angle)
 
 @interface IXCircle : CCNode {
-    int parts_;
-    CGPoint center_;
-    float radius_;
+    IXCircleOverlay *overlay_;
+    CCSprite *sprite;
+    IXFraction *fraction_;
     
-    float alphaRad;
-    int startLine;
-    int endLine;
-    
-    // temp variable, used to restrict only clockwise movement
-    float current_angle;
+    id<IXCircleProtocol> delegate_;
 }
 
-@property (nonatomic, assign) int parts;
-@property (readonly, nonatomic, assign) CGPoint center;
-@property (readonly, nonatomic, assign) float radius;
+@property (readonly, nonatomic) IXCircleOverlay *overlay;
+@property (readonly, nonatomic) IXFraction *fraction;
+@property (nonatomic, retain) id<IXCircleProtocol> delegate;
 
-+ (id) circleWithParts:(int)parts center:(CGPoint)center;
-- (id) initWithParts:(int)parts center:(CGPoint) center;
-- (BOOL) shouldTrack:(UITouch*)touch;
-- (void) drawPointFromTouch:(UITouch*)touch ribbon:(CCRibbon*)ribbon;
-- (int) getSelectedQuadrants;
++ (id) circleWithCenter:(CGPoint)center overlay:(IXCircleOverlay*)overlay;
+- (id) initWithCenter:(CGPoint)center overlay:(IXCircleOverlay*)overlay;
+
+- (void) startTrack:(UITouch*)touch;
+- (void) trackTouch:(UITouch*)touch;
+- (void) endTrack:(UITouch*)touch;
 
 @end

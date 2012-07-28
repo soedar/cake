@@ -17,7 +17,7 @@
 + (IXFraction*) randomFraction
 {
     int denominator = (arc4random() % 9) + 2;
-    int numerator = (arc4random() % (denominator-1)) + 1;
+    int numerator = (arc4random() % (denominator)) + 1;
     return [[[self alloc] initWithNumerator:numerator denominator:denominator] autorelease];
 }
 
