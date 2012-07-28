@@ -51,6 +51,12 @@
     alphaAngle = 2*M_PI / parts_;
 }
 
+- (void) setStartAngle:(float)startAngle
+{
+    int piece = startAngle / alphaAngle;
+    startAngle_ = piece * alphaAngle;
+}
+
 - (void) setEndAngle:(float)endAngle
 {
     endAngle_ = endAngle;
