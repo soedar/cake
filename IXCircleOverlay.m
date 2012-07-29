@@ -15,6 +15,7 @@
 @synthesize radius = radius_;
 @synthesize startAngle = startAngle_;
 @synthesize endAngle = endAngle_;
+@synthesize alphaAngle = alphaAngle_;
 
 + (id) newOverlay
 {
@@ -26,7 +27,7 @@
     if (self = [super init]) {
         radius_ = 150;
         parts_ = 0;
-        alphaAngle = 0;
+        alphaAngle_ = 0;
         
         startAngle_ = 0;
         endAngle_ = 0;
@@ -45,16 +46,17 @@
     ixDrawOverlay(ccp(0,0), radius_, parts_);
 }
 
+
 - (void) setParts:(int)parts
 {
     parts_ = parts;
-    alphaAngle = 2*M_PI / parts_;
+    alphaAngle_ = 2*M_PI / parts_;
 }
 
 - (void) setStartAngle:(float)startAngle
 {
-    int piece = startAngle / alphaAngle;
-    startAngle_ = piece * alphaAngle;
+    int piece = startAngle / alphaAngle_;
+    startAngle_ = piece * alphaAngle_;
 }
 
 - (void) setEndAngle:(float)endAngle
@@ -68,6 +70,6 @@
 - (int) getSelectedParts
 {
     float delta = endAngle_ - startAngle_;
-    return (int)ceilf(delta/alphaAngle);
+    return (int)ceilf(delta/alphaAngle_);
 }
 @end

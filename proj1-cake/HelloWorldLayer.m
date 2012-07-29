@@ -95,4 +95,10 @@
         [fractionLabel setString:circle.fraction.string];
     }
 }
+
+- (void) autoHighlightCompleted
+{
+    [circle.overlay setStartAngle:0];
+    [circle.overlay setEndAngle:0];
+}
 @end

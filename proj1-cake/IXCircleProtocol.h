@@ -11,5 +11,6 @@
 @protocol IXCircleProtocol <NSObject>
 
 - (void) selectedAreaIsCorrect:(BOOL)correct;
+- (void) autoHighlightCompleted;
 
 @end

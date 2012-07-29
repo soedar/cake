@@ -16,12 +16,13 @@
     float startAngle_;
     float endAngle_;
     
-    float alphaAngle;
+    float alphaAngle_;
 }
 @property (nonatomic, assign) int parts;
-@property (readonly, nonatomic, assign) float radius;
+@property (readonly, nonatomic) float radius;
 @property (nonatomic, assign) float startAngle;
 @property (nonatomic, assign) float endAngle;
+@property (readonly, nonatomic) float alphaAngle;
 
 + (id) newOverlay;
 - (int) getSelectedParts;

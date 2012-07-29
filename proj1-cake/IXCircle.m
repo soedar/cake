@@ -28,7 +28,9 @@
     if (self = [super init]) {
         overlay_ = [overlay retain];
         sprite = [CCSprite spriteWithFile:@"pizza.png"];
-        
+       
+        totalLingerCount = 10;
+        currentLingerCount = 0;
         self.position = center;
         
         [self updateFraction:[IXFraction randomFraction]];
@@ -53,10 +55,15 @@
     }
     fraction_ = [fraction retain];
     [overlay_ setParts:fraction_.denominator];
+    [self autoHighlightFromPiece:0 to:fraction_.numerator];
 }
 
 - (void) startTrack:(UITouch*)touch
 {
+    // If user has started highlighting the circle, we
+    // stop all automated highlighting
+    [self unscheduleAllSelectors];
+    
     CGPoint point = [self convertTouchToNodeSpace:touch];
     float angle = POS_ANGLE(atan2f(point.x, point.y));
     
@@ -89,4 +96,38 @@
     [overlay_ setStartAngle:0];
     [overlay_ setEndAngle:0];
 }
+
+- (void) autoHighlightFromPiece:(int)startPiece to:(int)endPiece
+{
+    if (endPiece > fraction_.denominator)
+        return;
+    
+    float startAngle = startPiece * overlay_.alphaAngle;
+    float endAngle = endPiece * overlay_.alphaAngle;
+    [self autoHighlightFromAngle:startAngle to:endAngle];
+}
+
+- (void) autoHighlightFromAngle:(float)startAngle to:(float)endAngle
+{
+    [overlay_ setStartAngle:startAngle];
+    autoEndAngle = endAngle;
+    [self schedule:@selector(ticks:) interval:0.05];
+}
+ 
+- (void) ticks:(ccTime)dt
+{
+    if (overlay_.endAngle < autoEndAngle) {
+        [overlay_ setEndAngle:overlay_.endAngle+0.05];
+    } else {
+        if (currentLingerCount >= totalLingerCount) {
+            [self unschedule:@selector(ticks:)];
+            [delegate_ autoHighlightCompleted];
+            currentLingerCount = 0;
+        }
+        else {
+            currentLingerCount++;
+        }
+    }
+}
+
 @end

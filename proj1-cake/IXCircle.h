@@ -20,6 +20,10 @@
     CCSprite *sprite;
     IXFraction *fraction_;
     
+    float autoEndAngle;
+    int totalLingerCount;
+    int currentLingerCount;
+    
     id<IXCircleProtocol> delegate_;
 }
 
@@ -33,5 +37,8 @@
 - (void) startTrack:(UITouch*)touch;
 - (void) trackTouch:(UITouch*)touch;
 - (void) endTrack:(UITouch*)touch;
+
+- (void) autoHighlightFromAngle:(float)startAngle to:(float)endAngle;
+- (void) autoHighlightFromPiece:(int)startPiece to:(int)endPiece;
 
 @end
