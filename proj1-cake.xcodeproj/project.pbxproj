@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6053AA1815C3687800FAB5BA /* IXCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 6053AA1715C3687800FAB5BA /* IXCircleOverlay.m */; };
+		600D010415C4C6BF007336AF /* IXCircleOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 600D010315C4C6BF007336AF /* IXCircleOverlay.m */; };
 		6053AA1E15C36EF500FAB5BA /* IXDrawingPrimitives.m in Sources */ = {isa = PBXBuildFile; fileRef = 6053AA1D15C36EF500FAB5BA /* IXDrawingPrimitives.m */; };
 		6053AA2615C45FAD00FAB5BA /* pizza.png in Resources */ = {isa = PBXBuildFile; fileRef = 6053AA2515C45FAD00FAB5BA /* pizza.png */; };
 		605FD7E715A56D2500C86C31 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 605FD7E615A56D2500C86C31 /* QuartzCore.framework */; };
@@ -130,8 +130,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6053AA1615C3687800FAB5BA /* IXCircleOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IXCircleOverlay.h; path = ../IXCircleOverlay.h; sourceTree = "<group>"; };
-		6053AA1715C3687800FAB5BA /* IXCircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IXCircleOverlay.m; path = ../IXCircleOverlay.m; sourceTree = "<group>"; };
+		600D010215C4C6BF007336AF /* IXCircleOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IXCircleOverlay.h; sourceTree = "<group>"; };
+		600D010315C4C6BF007336AF /* IXCircleOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IXCircleOverlay.m; sourceTree = "<group>"; };
 		6053AA1C15C36EF500FAB5BA /* IXDrawingPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IXDrawingPrimitives.h; sourceTree = "<group>"; };
 		6053AA1D15C36EF500FAB5BA /* IXDrawingPrimitives.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IXDrawingPrimitives.m; sourceTree = "<group>"; };
 		6053AA2015C45A3300FAB5BA /* IXCircleProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IXCircleProtocol.h; sourceTree = "<group>"; };
@@ -441,8 +441,8 @@
 				6053AA2015C45A3300FAB5BA /* IXCircleProtocol.h */,
 				605FD95715A56D7A00C86C31 /* IXCircle.h */,
 				605FD95815A56D7A00C86C31 /* IXCircle.m */,
-				6053AA1615C3687800FAB5BA /* IXCircleOverlay.h */,
-				6053AA1715C3687800FAB5BA /* IXCircleOverlay.m */,
+				600D010215C4C6BF007336AF /* IXCircleOverlay.h */,
+				600D010315C4C6BF007336AF /* IXCircleOverlay.m */,
 				60D83C3515AB0F3E009FBBE1 /* IXFraction.h */,
 				60D83C3615AB0F3E009FBBE1 /* IXFraction.m */,
 				6053AA1C15C36EF500FAB5BA /* IXDrawingPrimitives.h */,
@@ -953,8 +953,8 @@
 				605FD95015A56D2700C86C31 /* HelloWorldLayer.m in Sources */,
 				605FD95915A56D7A00C86C31 /* IXCircle.m in Sources */,
 				60D83C3715AB0F3E009FBBE1 /* IXFraction.m in Sources */,
-				6053AA1815C3687800FAB5BA /* IXCircleOverlay.m in Sources */,
 				6053AA1E15C36EF500FAB5BA /* IXDrawingPrimitives.m in Sources */,
+				600D010415C4C6BF007336AF /* IXCircleOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
