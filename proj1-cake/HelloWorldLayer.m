@@ -44,7 +44,7 @@
         [fractionLabel setPosition:ccp(60, 300)];
         [self addChild:fractionLabel];
         
-        IXCircleOverlay *overlay = [IXCircleOverlay newOverlay];
+        IXCircleOverlay *overlay = [IXCircleOverlay getNewOverlay];
         circle = [[IXCircle circleWithCenter:ccp(size.width/2, size.height/2) overlay:overlay] retain];
         [self addChild:circle];
         

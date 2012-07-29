@@ -17,7 +17,7 @@
 @synthesize endAngle = endAngle_;
 @synthesize alphaAngle = alphaAngle_;
 
-+ (id) newOverlay
++ (id) getNewOverlay
 {
     return [[[self alloc] init] autorelease];
 }

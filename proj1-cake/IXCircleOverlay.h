@@ -24,7 +24,7 @@
 @property (nonatomic, assign) float endAngle;
 @property (readonly, nonatomic) float alphaAngle;
 
-+ (id) newOverlay;
++ (id) getNewOverlay;
 - (int) getSelectedParts;
 
 @end
